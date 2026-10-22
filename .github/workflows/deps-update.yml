@@ -54,6 +54,8 @@ jobs:
             - `template/requirements.txt.jinja` / `template/requirements-dev.txt.jinja` and
               `template/.pre-commit-config.yaml` refreshed from a freshly generated throwaway
               project (see `scripts/sync_generated_deps.py`)
+            - Action `uses:` refs in `template/.github/workflows/*.yml` synced to match this
+              repo's own (Dependabot-bumped) workflows
           branch: chore/auto-update-deps
           labels: dependencies, automated
           signoff: false

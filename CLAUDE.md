@@ -82,7 +82,10 @@ copier copy . /tmp/my-project
   `scripts/sync_generated_deps.py`, which generates a throwaway project from the current checkout,
   runs `tox -e update_deps` inside *it*, and copies the result back into
   `template/requirements.txt.jinja` / `template/requirements-dev.txt.jinja` /
-  `template/.pre-commit-config.yaml`. Generated projects never run `pip-compile` themselves —
+  `template/.pre-commit-config.yaml`, then copies the root workflows' action `uses:` refs (as
+  bumped by Dependabot, grouped into one weekly PR) into the matching
+  `template/.github/workflows/*.yml` refs — so Dependabot PRs don't need a template edit and
+  `tests/pin_consistency_test.py` deliberately doesn't compare action refs. Generated projects never run `pip-compile` themselves —
   their `requirements*.txt` ship as real template payload and stay fresh via `copier update`
   (see `template/.github/workflows/auto-update-deps.yml`, opt-in via the `include_dep_automation`
   copier question), which is why `release.yml` above needs to tag on every push rather than only

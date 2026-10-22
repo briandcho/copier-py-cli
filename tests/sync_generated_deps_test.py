@@ -9,7 +9,7 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
-from sync_generated_deps import _require, sync_requirements
+from sync_generated_deps import _require, sync_action_pins, sync_requirements
 
 
 def test_require_returns_the_resolved_path_for_an_executable_on_path():
@@ -64,3 +64,42 @@ def test_sync_requirements_is_a_no_op_when_project_name_does_not_appear(tmp_path
     assert (
         template_dir / "requirements-dev.txt.jinja"
     ).read_text() == "covdefaults==2.3.0\n"
+
+
+def test_sync_action_pins_copies_root_refs_into_template_workflows(tmp_path):
+    root_dir = tmp_path / "root"
+    root_dir.mkdir()
+    template_dir = tmp_path / "template"
+    template_dir.mkdir()
+
+    (root_dir / "ci.yml").write_text(
+        "      - uses: actions/checkout@v7\n"
+        "        uses: trufflesecurity/trufflehog@v3.99.3\n"
+    )
+    (template_dir / "ci.yml").write_text(
+        "      - uses: actions/checkout@v4\n"
+        "        uses: trufflesecurity/trufflehog@v3.97.9\n"
+        "        uses: actions/upload-artifact@v4\n"
+    )
+
+    sync_action_pins(root_dir, template_dir)
+
+    assert (template_dir / "ci.yml").read_text() == (
+        "      - uses: actions/checkout@v7\n"
+        "        uses: trufflesecurity/trufflehog@v3.99.3\n"
+        "        uses: actions/upload-artifact@v4\n"
+    )
+
+
+def test_sync_action_pins_rejects_conflicting_root_refs(tmp_path):
+    root_dir = tmp_path / "root"
+    root_dir.mkdir()
+    template_dir = tmp_path / "template"
+    template_dir.mkdir()
+
+    (root_dir / "ci.yml").write_text("      - uses: actions/checkout@v7\n")
+    (root_dir / "release.yml").write_text("      - uses: actions/checkout@v6\n")
+    (template_dir / "ci.yml").write_text("      - uses: actions/checkout@v4\n")
+
+    with pytest.raises(ValueError, match="actions/checkout"):
+        sync_action_pins(root_dir, template_dir)
