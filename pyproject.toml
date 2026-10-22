@@ -1,5 +1,5 @@
 [project]
-name = "minimal-cli-template"
+name = "copier-py-cli-template"
 version = "0.0.0"
 description = "Copier template for scaffolding a minimal Python CLI project"
 license = "MIT"

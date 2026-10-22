@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A [Copier](https://copier.readthedocs.io/) template repo (`minimal-cli`) that scaffolds a minimal
+A [Copier](https://copier.readthedocs.io/) template repo (`copier-py-cli`) that scaffolds a minimal
 Python CLI tool project. This is **not** itself an installable/published package — it's a template
 plus the tooling to test that the template renders correctly.
 
@@ -32,7 +32,7 @@ project):
 
 ```sh
 tox -e py            # render the template, assert substitutions, install the generated project
-                      # into a throwaway venv, and run its own test suite (tests/minimal_cli_test.py)
+                      # into a throwaway venv, and run its own test suite (tests/copier_py_cli_test.py)
 tox -e pre-commit    # run pre-commit-stage hooks (ruff, ruff-format, mypy, bandit, etc.) — excludes pip-audit and checkov, see below
 tox                  # run both py and pre-commit envs
 tox -e update_deps   # regenerate requirements-dev.txt via pip-compile and autoupdate pre-commit hooks
@@ -41,7 +41,7 @@ tox -e update_deps   # regenerate requirements-dev.txt via pip-compile and autou
 Run the generation tests directly (bypassing tox) once deps from `requirements-dev.txt` are installed:
 
 ```sh
-pytest tests/minimal_cli_test.py
+pytest tests/copier_py_cli_test.py
 ```
 
 Lint/format/type-check individually via pre-commit's underlying tools if needed: `ruff check .`, `ruff format .`, `mypy .`.
@@ -54,7 +54,7 @@ copier copy . /tmp/my-project
 
 ## Versioning and releases
 
-- **This repo's own git tags matter**: `copier copy https://github.com/briandcho/minimal-cli
+- **This repo's own git tags matter**: `copier copy https://github.com/briandcho/copier-py-cli
   my-project` (no explicit `--vcs-ref`) makes copier fetch the *latest git tag*, not `main`'s
   HEAD. So the tag has to actually point at a commit containing `copier.yml`/`template/` for the
   command in the README to work — a stale or missing tag silently serves an old/broken template.
@@ -68,7 +68,7 @@ copier copy . /tmp/my-project
   projects are refreshed via `copier update` rather than locally — see the dependency-automation
   bullet below). There's no root `CHANGELOG.md`: it would just duplicate the notes on the GitHub
   Release page this step already publishes, and nothing here consumes it (this repo isn't
-  installed as a package). (`tests/minimal_cli_test.py`'s own `generate()` sidesteps tag
+  installed as a package). (`tests/copier_py_cli_test.py`'s own `generate()` sidesteps tag
   resolution entirely by passing `vcs_ref="HEAD"`, so local test runs always exercise the current
   checkout regardless of tags.) This is deliberately scoped to this repo's own tagging only —
   `template/.github/workflows/release.yml` (the *generated* project's own PyPI-publishing
@@ -114,4 +114,4 @@ copier copy . /tmp/my-project
   enough to need a package directory, `template/pyproject.toml.jinja`'s setuptools config would
   need updating too).
 - New assertions about what the generated project should look like go in
-  `tests/minimal_cli_test.py` at the repo root.
+  `tests/copier_py_cli_test.py` at the repo root.

@@ -1,4 +1,4 @@
-# minimal-cli
+# copier-py-cli
 
 A [Copier](https://copier.readthedocs.io/) template for scaffolding a minimal Python CLI tool
 project (argument parsing via `argparse`, `--version`/`-V`, `setuptools-scm` versioning, tox,
@@ -9,7 +9,7 @@ pre-commit, and GitHub Actions CI/release/dependency-update workflows).
 Generate a new project:
 
 ```sh
-copier copy https://github.com/briandcho/minimal-cli my-project
+copier copy https://github.com/briandcho/copier-py-cli my-project
 ```
 
 `copier copy` fetches this repo's *latest git tag* by default (not `main`'s HEAD). Releases are cut

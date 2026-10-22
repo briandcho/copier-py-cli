@@ -31,7 +31,7 @@ jobs:
           pip install copier
 
       # requirements*.txt, .pre-commit-config.yaml, and this workflow itself are all template
-      # payload kept fresh upstream (see the minimal-cli template repo's own deps-update.yml) --
+      # payload kept fresh upstream (see the copier-py-cli template repo's own deps-update.yml) --
       # this just pulls that already-vetted content forward.
       - name: Pull template updates
         run: copier update --defaults --skip-answered

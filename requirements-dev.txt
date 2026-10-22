@@ -9,9 +9,9 @@ annotated-types==0.8.0
 colorama==0.4.6
     # via copier
 copier==9.18.1
-    # via minimal-cli-template (pyproject.toml)
+    # via copier-py-cli-template (pyproject.toml)
 covdefaults==2.3.0
-    # via minimal-cli-template (pyproject.toml)
+    # via copier-py-cli-template (pyproject.toml)
 coverage[toml]==7.11.0
     # via
     #   covdefaults
@@ -58,7 +58,7 @@ pygments==2.21.0
 pytest==9.1.1
     # via pytest-cov
 pytest-cov==7.0.0
-    # via minimal-cli-template (pyproject.toml)
+    # via copier-py-cli-template (pyproject.toml)
 pyyaml==6.0.3
     # via
     #   copier

@@ -19,7 +19,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = REPO_ROOT / "template"
 
 sys.path.insert(0, str(REPO_ROOT / "tests"))
-from minimal_cli_test import ANSWERS, generate
+from copier_py_cli_test import ANSWERS, generate
 
 
 def _require(executable: str) -> str:
@@ -59,7 +59,7 @@ def sync_requirements(throwaway: Path, template_dir: Path, project_name: str) ->
 
 
 def main() -> None:  # pragma: no cover
-    throwaway = Path(tempfile.gettempdir()) / "minimal-cli-throwaway"
+    throwaway = Path(tempfile.gettempdir()) / "copier-py-cli-throwaway"
     generate_and_update(throwaway)
     sync_requirements(throwaway, TEMPLATE_DIR, ANSWERS["project_name"])
 
