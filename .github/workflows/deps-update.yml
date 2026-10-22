@@ -39,20 +39,6 @@ jobs:
       - name: Sync generated-project requirements into template/
         run: python scripts/sync_generated_deps.py
 
-      - name: Find existing auto-update PR
-        id: find_pr
-        uses: peter-evans/find-pull-request@v3
-        with:
-          branch: chore/auto-update-deps
-          state: open
-
-      - name: Close previous auto-update PR (if any)
-        if: steps.find_pr.outputs.pull-request-number != ''
-        uses: peter-evans/close-pull@v3
-        with:
-          pull-request-number: ${{ steps.find_pr.outputs.pull-request-number }}
-          comment: Closing prior auto-update PR in favor of a fresh one.
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
         with:

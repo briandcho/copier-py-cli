@@ -17,11 +17,11 @@ jobs:
   update-deps:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
 
@@ -36,22 +36,8 @@ jobs:
       - name: Pull template updates
         run: copier update --defaults --skip-answered
 
-      - name: Find existing auto-update PR
-        id: find_pr
-        uses: peter-evans/find-pull-request@v3
-        with:
-          branch: chore/auto-update-deps
-          state: open
-
-      - name: Close previous auto-update PR (if any)
-        if: steps.find_pr.outputs.pull-request-number != ''
-        uses: peter-evans/close-pull@v3
-        with:
-          pull-request-number: ${{ steps.find_pr.outputs.pull-request-number }}
-          comment: Closing prior auto-update PR in favor of a fresh one.
-
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'chore(deps): update from template'
